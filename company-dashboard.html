@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الشركة - INOVATION GROUP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray-100: #f8fafc;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-details h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-details span {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 1rem 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-800);
+            text-decoration: none;
+            transition: all 0.2s;
+            gap: 0.75rem;
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .dash-header h1 {
+            font-size: 1.8rem;
+            color: var(--gray-800);
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray-300);
+            color: var(--gray-800);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--gray-100);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            color: var(--gray-600);
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h2 {
+            font-size: 1.3rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Orders List */
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .order-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-info h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .order-info p {
+            margin-bottom: 0.75rem;
+            color: var(--gray-600);
+        }
+
+        .order-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .order-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .order-status {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-delivered {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-accepted {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .status-pending {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.3rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-600);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dash-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .order-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .order-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <div class="user-avatar">ش</div>
+                    <div class="user-details">
+                        <h3>شركة النقل المتميزة</h3>
+                        <span>شركة</span>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li><a href="#" class="active"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li><a href="delegates-management.html"><i class="fas fa-users"></i> إدارة المندوبين</a></li>
+                <li><a href="orders.html"><i class="fas fa-shipping-fast"></i> الطلبات</a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar"></i> التقارير</a></li>
+                <li><a href="profile-settings.html"><i class="fas fa-user-cog"></i> إعدادات الحساب</a></li>
+                <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="dash-header">
+                <h1>لوحة تحكم الشركة</h1>
+                <div class="user-actions">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-bell"></i>
+                        الإشعارات
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-truck"></i>
+                    <h3>675</h3>
+                    <p>مندوب نشط</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-box"></i>
+                    <h3>34202</h3>
+                    <p>طلبات هذا الشهر</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h3>100,268,254</h3>
+                    <p>إيرادات الشهر</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <h3>3.9</h3>
+                    <p>التقييم العام</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>نظرة عامة على الأداء</h2>
+                </div>
+                <div class="card-body">
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                        <div>
+                            <h4 style="margin-bottom: 1rem;">إحصائيات الطلبات</h4>
+                            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                    <span>طلبات منفذة:</span>
+                                    <strong>1133565 طلب</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                    <span>طلبات قيد التنفيذ:</span>
+                                    <strong>7054 طلب</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>طلبات ملغية:</span>
+                                    <strong>85 طلب</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom: 1rem;">أفضل المندوبين</h4>
+                            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 10px;">
+                                <div style="margin-bottom: 1rem;">
+                                    <div style="display: flex; justify-content: between; margin-bottom: 0.5rem;">
+                                        <span>عبدالله حسين</span>
+                                        <strong>4.9 ⭐</strong>
+                                    </div>
+                                    <div style="background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden;">
+                                        <div style="background: var(--success); height: 100%; width: 98%;"></div>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 1rem;">
+                                    <div style="display: flex; justify-content: between; margin-bottom: 0.5rem;">
+                                        <span>محمد حماده</span>
+                                        <strong>4.8 ⭐</strong>
+                                    </div>
+                                    <div style="background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden;">
+                                        <div style="background: var(--success); height: 100%; width: 96%;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: between; margin-bottom: 0.5rem;">
+                                        <span>عبدالرحمان سعيد</span>
+                                        <strong>4.7 ⭐</strong>
+                                    </div>
+                                    <div style="background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden;">
+                                        <div style="background: var(--success); height: 100%; width: 94%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>آخر الطلبات</h2>
+                    <button class="btn btn-primary" id="newOrderBtn">
+                        <i class="fas fa-plus"></i>
+                        طلب جديد
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="orders-list">
+                        <div class="order-item">
+                            <div class="order-info">
+                                <h4>طلب #ORD-0154</h4>
+                                <p>من: مدينة نصر، القاهرة - إلى: المعادي، القاهرة</p>
+                                <div class="order-meta">
+                                    <span><i class="fas fa-user"></i> سارة عبدالله</span>
+                                    <span><i class="fas fa-truck"></i> أحمد محمد</span>
+                                    <span><i class="fas fa-clock"></i> ٢٣ أكتوبر ٢٠٢٤</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="order-status status-delivered">تم التسليم</span>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-info">
+                                <h4>طلب #ORD-0153</h4>
+                                <p>من: الزمالك، القاهرة - إلى: التجمع الخامس، القاهرة</p>
+                                <div class="order-meta">
+                                    <span><i class="fas fa-user"></i> عبدالله حسين</span>
+                                    <span><i class="fas fa-truck"></i> محمد حماده</span>
+                                    <span><i class="fas fa-clock"></i> ٢٢ أكتوبر ٢٠٢٤</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="order-status status-accepted">قيد التنفيذ</span>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-info">
+                                <h4>طلب #ORD-0152</h4>
+                                <p>من: مصر الجديدة، القاهرة - إلى: الشيخ زايد، الجيزة</p>
+                                <div class="order-meta">
+                                    <span><i class="fas fa-user"></i>عبدالله حسين </span>
+                                    <span><i class="fas fa-truck"></i> محمد حماده</span>
+                                    <span><i class="fas fa-clock"></i> ٢١ أكتوبر ٢٠٢٤</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="order-status status-pending">قيد الانتظار</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for New Order -->
+    <div class="modal" id="newOrderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>إنشاء طلب جديد</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="newOrderForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clientName">اسم العميل</label>
+                            <input type="text" id="clientName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clientPhone">رقم هاتف العميل</label>
+                            <input type="tel" id="clientPhone" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickupLocation">موقع الاستلام</label>
+                            <input type="text" id="pickupLocation" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryLocation">موقع التسليم</label>
+                            <input type="text" id="deliveryLocation" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="packageType">نوع الطرد</label>
+                            <select id="packageType" class="form-control" required>
+                                <option value="">اختر نوع الطرد</option>
+                                <option value="document">مستندات</option>
+                                <option value="small">طرد صغير</option>
+                                <option value="medium">طرد متوسط</option>
+                                <option value="large">طرد كبير</option>
+                                <option value="fragile">مواد قابلة للكسر</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryType">نوع التوصيل</label>
+                            <select id="deliveryType" class="form-control" required>
+                                <option value="">اختر نوع التوصيل</option>
+                                <option value="standard">توصيل عادي</option>
+                                <option value="express">توصيل سريع</option>
+                                <option value="same-day">توصيل في نفس اليوم</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">ملاحظات إضافية</label>
+                        <textarea id="notes" class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelOrderBtn">إلغاء</button>
+                <button class="btn btn-primary" id="submitOrderBtn">إنشاء الطلب</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // تعريف الكائن InovationApp إذا لم يكن موجودًا
+        window.InovationApp = window.InovationApp || {
+            current: function() {
+                // محاولة جلب بيانات المستخدم من localStorage
+                const userData = localStorage.getItem('inovationUser');
+                if (userData) {
+                    return JSON.parse(userData);
+                }
+                return { name: 'شركة النقل المتميزة', role: 'company' };
+            },
+            logout: function() {
+                localStorage.removeItem('inovationUser');
+                window.location.href = 'login.html';
+            }
+        };
+
+        // Check if user is logged in
+        const currentUser = window.InovationApp.current();
+        if(!currentUser || currentUser.role !== 'company') {
+            alert('يجب تسجيل الدخول كشركة');
+            window.location.href = 'login.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUserInfo();
+            setupEventListeners();
+        });
+
+        function updateUserInfo() {
+            const userAvatar = document.querySelector('.user-avatar');
+            const userName = document.querySelector('.user-details h3');
+            
+            if(currentUser) {
+                userAvatar.textContent = currentUser.name.charAt(0);
+                userName.textContent = currentUser.name;
+            }
+        }
+
+        function setupEventListeners() {
+            // New Order Button
+            const newOrderBtn = document.getElementById('newOrderBtn');
+            const newOrderModal = document.getElementById('newOrderModal');
+            const closeBtn = document.querySelector('.close-btn');
+            const cancelOrderBtn = document.getElementById('cancelOrderBtn');
+            const submitOrderBtn = document.getElementById('submitOrderBtn');
+            const newOrderForm = document.getElementById('newOrderForm');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            // Open modal
+            newOrderBtn.addEventListener('click', function() {
+                newOrderModal.style.display = 'flex';
+            });
+
+            // Close modal
+            function closeModal() {
+                newOrderModal.style.display = 'none';
+                newOrderForm.reset();
+            }
+
+            closeBtn.addEventListener('click', closeModal);
+            cancelOrderBtn.addEventListener('click', closeModal);
+
+            // Submit order
+            submitOrderBtn.addEventListener('click', function() {
+                if (newOrderForm.checkValidity()) {
+                    // Here you would typically send the data to your backend
+                    alert('تم إنشاء الطلب بنجاح!');
+                    closeModal();
+                    
+                    // In a real application, you would update the orders list here
+                    // For demonstration, we'll just show an alert
+                } else {
+                    alert('يرجى ملء جميع الحقول المطلوبة');
+                }
+            });
+
+            // Logout button
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+                    window.InovationApp.logout();
+                }
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === newOrderModal) {
+                    closeModal();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

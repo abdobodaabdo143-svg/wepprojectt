@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب جديد - INOVATION GROUP</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <i class="fas fa-user-plus"></i>
+            <h1>إنشاء حساب جديد</h1>
+            <p>انضم إلى منصتنا وابدأ رحلتك مع خدمات النقل والشحن</p>
+        </div>
+
+        <div class="auth-body">
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="name">الاسم الكامل</label>
+                    <input type="text" id="name" class="form-control" placeholder="أدخل اسمك الكامل" required
+                           oninput="this.value = this.value.replace(/[0-9]/g, '')">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="countryCode">الدولة</label>
+                        <select id="countryCode" class="form-control" required>
+                            <option value="+20">🇪🇬 مصر (+20)</option>
+                            <option value="+966">🇸🇦 السعودية (+966)</option>
+                            <option value="+971">🇦🇪 الإمارات (+971)</option>
+                            <option value="+965">🇰🇼 الكويت (+965)</option>
+                            <option value="+974">🇶🇦 قطر (+974)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">رقم الهاتف</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="1000000001" required
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" class="form-control" placeholder="أدخل كلمة مرور قوية" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nationality">الجنسية</label>
+                        <input type="text" id="nationality" class="form-control" placeholder="الجنسية" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">النوع</label>
+                        <select id="gender" class="form-control" required>
+                            <option value="male">ذكر</option>
+                            <option value="female">أنثى</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">الدور</label>
+                    <select id="role" class="form-control" required>
+                        <option value="customer">عميل</option>
+                        <option value="driver">مندوب</option>
+                    </select>
+                </div>
+
+                <div id="driverFields" class="driver-fields">
+                    <div class="form-group">
+                        <label for="vehicleType">نوع المركبة</label>
+                        <input type="text" id="vehicleType" class="form-control" placeholder="مثال: فان - نقل صغير">
+                    </div>
+                    <div class="form-group">
+                        <label for="national_id">رقم الهوية</label>
+                        <input type="text" id="national_id" class="form-control" placeholder="رقم الهوية الوطنية">
+                    </div>
+                    <div class="form-group">
+                        <label for="idPhoto">صورة الهوية (اختياري)</label>
+                        <input type="file" id="idPhoto" class="form-control">
+                    </div>
+                </div>
+
+                <div class="company-link">
+                    <a href="company-register.html">
+                        <i class="fas fa-building"></i>
+                        هل أنت شركة؟ سجل شركتك من هنا
+                    </a>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i>
+                    إنشاء الحساب
+                </button>
+            </form>
+
+            <div class="auth-links">
+                <a href="login.html">هل لديك حساب؟ تسجيل الدخول</a>
+            </div>
+
+            <div class="back-home">
+                <a href="index.html">
+                    <i class="fas fa-arrow-right"></i>
+                    العودة إلى الرئيسية
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/app.js"></script>
+    <script>
+        // Show/hide driver fields based on role selection
+        document.getElementById('role').addEventListener('change', function() {
+            const driverFields = document.getElementById('driverFields');
+            if(this.value === 'driver') {
+                driverFields.style.display = 'block';
+                // Make driver fields required
+                document.getElementById('vehicleType').required = true;
+                document.getElementById('national_id').required = true;
+            } else {
+                driverFields.style.display = 'none';
+                // Remove required from driver fields
+                document.getElementById('vehicleType').required = false;
+                document.getElementById('national_id').required = false;
+            }
+        });
+
+        // Phone number formatting
+        document.getElementById('phone').addEventListener('input', function() {
+            UIHelper.formatPhoneInput(this);
+        });
+
+        // Password strength validation
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthIndicator = document.getElementById('passwordStrength');
+            
+            if(!strengthIndicator) {
+                const indicator = document.createElement('div');
+                indicator.id = 'passwordStrength';
+                indicator.style.fontSize = '0.8rem';
+                indicator.style.marginTop = '0.5rem';
+                this.parentNode.appendChild(indicator);
+            }
+            
+            let strength = 'ضعيفة';
+            let color = '#b91c1c';
+            
+            if(password.length >= 8) {
+                strength = 'جيدة';
+                color = '#f59e0b';
+            }
+            if(password.length >= 10 && /[0-9]/.test(password) && /[A-Za-z]/.test(password)) {
+                strength = 'قوية';
+                color = '#10b981';
+            }
+            
+            strengthIndicator.textContent = `قوة كلمة المرور: ${strength}`;
+            strengthIndicator.style.color = color;
+        });
+
+        // Form Submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const role = document.getElementById('role').value;
+            const name = document.getElementById('name').value.trim();
+            const country = document.getElementById('countryCode').value;
+            const phone = document.getElementById('phone').value.trim();
+            const password = document.getElementById('password').value;
+            const nationality = document.getElementById('nationality').value.trim();
+            const gender = document.getElementById('gender').value;
+            
+            let vehicleType = '';
+            let nationalId = '';
+            if(role === 'driver') {
+                vehicleType = document.getElementById('vehicleType').value.trim();
+                nationalId = document.getElementById('national_id').value.trim();
+            }
+
+            // Validate phone format
+            if(!window.InovationApp.validatePhone(phone)) {
+                UIHelper.showMessage('رقم الهاتف غير صحيح. يجب أن يبدأ بـ + ويتبعه 10-15 رقم');
+                return;
+            }
+
+            // Validate password strength
+            if(password.length < 6) {
+                UIHelper.showMessage('كلمة المرور يجب أن تكون 6 أحرف على الأقل');
+                return;
+            }
+
+            const registerBtn = this.querySelector('button');
+            const originalText = UIHelper.showLoading(registerBtn);
+
+            const userData = {
+                name,
+                phone,
+                password,
+                role,
+                vehicleType,
+                nationality,
+                gender
+            };
+
+            // Simulate API call
+            setTimeout(() => {
+                const result = window.InovationApp.register(userData);
+                
+                if(result.success) {
+                    UIHelper.showMessage('تم إنشاء الحساب بنجاح! يتم توجيهك إلى صفحة تسجيل الدخول...', 'success');
+                    UIHelper.redirect('login.html', 2000);
+                } else {
+                    UIHelper.showMessage(result.message);
+                    UIHelper.hideLoading(registerBtn, originalText);
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

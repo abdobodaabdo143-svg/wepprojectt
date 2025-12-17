@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الطلبات - INOVATION GROUP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* نفس الستايل السابق مع إضافة بعض التعديلات */
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray-100: #f8fafc;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-details h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-details span {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 1rem 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-800);
+            text-decoration: none;
+            transition: all 0.2s;
+            gap: 0.75rem;
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .dash-header h1 {
+            font-size: 1.8rem;
+            color: var(--gray-800);
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray-300);
+            color: var(--gray-800);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--gray-100);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h2 {
+            font-size: 1.3rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Orders List */
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .order-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-info h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .order-info p {
+            margin-bottom: 0.75rem;
+            color: var(--gray-600);
+        }
+
+        .order-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .order-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .order-status {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-delivered {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-accepted {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .status-pending {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-cancelled {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        /* Filter Section */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dash-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .order-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .order-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <div class="user-avatar">ش</div>
+                    <div class="user-details">
+                        <h3>شركة النقل المتميزة</h3>
+                        <span>شركة</span>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li><a href="company-dashboard.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li><a href="delegates-management.html"><i class="fas fa-users"></i> إدارة المندوبين</a></li>
+                <li><a href="#" class="active"><i class="fas fa-shipping-fast"></i> الطلبات</a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar"></i> التقارير</a></li>
+                <li><a href="profile-settings.html"><i class="fas fa-user-cog"></i> إعدادات الحساب</a></li>
+                <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="dash-header">
+                <h1>إدارة الطلبات</h1>
+                <div class="user-actions">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-bell"></i>
+                        الإشعارات
+                    </button>
+                    <button class="btn btn-primary" id="newOrderBtn">
+                        <i class="fas fa-plus"></i>
+                        طلب جديد
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>جميع الطلبات</h2>
+                </div>
+                <div class="card-body">
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label>حالة الطلب</label>
+                            <select class="form-control" style="width: 200px;">
+                                <option value="">جميع الحالات</option>
+                                <option value="pending">قيد الانتظار</option>
+                                <option value="accepted">قيد التنفيذ</option>
+                                <option value="delivered">تم التسليم</option>
+                                <option value="cancelled">ملغي</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>من تاريخ</label>
+                            <input type="date" class="form-control" style="width: 200px;">
+                        </div>
+                        <div class="filter-group">
+                            <label>إلى تاريخ</label>
+                            <input type="date" class="form-control" style="width: 200px;">
+                        </div>
+                        <div class="filter-group">
+                            <label>بحث</label>
+                            <input type="text" class="form-control" placeholder="ابحث برقم الطلب..." style="width: 250px;">
+                        </div>
+                    </div>
+
+                    <div class="orders-list">
+                        <div class="order-item">
+                            <div class="order-info">
+                                <h4>طلب #ORD-0154</h4>
+                                <p>من: مدينة نصر، القاهرة - إلى: المعادي، القاهرة</p>
+                                <div class="order-meta">
+                                    <span><i class="fas fa-user"></i> سارة عبدالله</span>
+                                    <span><i class="fas fa-truck"></i> أحمد محمد</span>
+                                    <span><i class="fas fa-clock"></i> ٢٣ أكتوبر ٢٠٢٤</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="order-status status-delivered">تم التسليم</span>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-info">
+                                <h4>طلب #ORD-0153</h4>
+                                <p>من: الزمالك، القاهرة - إلى: التجمع الخامس، القاهرة</p>
+                                <div class="order-meta">
+                                    <span><i class="fas fa-user"></i> عبدالله حسين</span>
+                                    <span><i class="fas fa-truck"></i> محمد حماده</span>
+                                    <span><i class="fas fa-clock"></i> ٢٢ أكتوبر ٢٠٢٤</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="order-status status-accepted">قيد التنفيذ</span>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-info">
+                                <h4>طلب #ORD-0152</h4>
+                                <p>من: مصر الجديدة، القاهرة - إلى: الشيخ زايد، الجيزة</p>
+                                <div class="order-meta">
+                                    <span><i class="fas fa-user"></i>عبدالله حسين </span>
+                                    <span><i class="fas fa-truck"></i> محمد حماده</span>
+                                    <span><i class="fas fa-clock"></i> ٢١ أكتوبر ٢٠٢٤</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="order-status status-pending">قيد الانتظار</span>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-info">
+                                <h4>طلب #ORD-0151</h4>
+                                <p>من: المعادي، القاهرة - إلى: مدينة نصر، القاهرة</p>
+                                <div class="order-meta">
+                                    <span><i class="fas fa-user"></i>فاطمة أحمد</span>
+                                    <span><i class="fas fa-truck"></i> عبدالرحمان سعيد</span>
+                                    <span><i class="fas fa-clock"></i> ٢٠ أكتوبر ٢٠٢٤</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="order-status status-cancelled">ملغي</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // تعريف الكائن InovationApp إذا لم يكن موجودًا
+        window.InovationApp = window.InovationApp || {
+            current: function() {
+                const userData = localStorage.getItem('inovationUser');
+                if (userData) {
+                    return JSON.parse(userData);
+                }
+                return { name: 'شركة النقل المتميزة', role: 'company' };
+            },
+            logout: function() {
+                localStorage.removeItem('inovationUser');
+                window.location.href = 'login.html';
+            }
+        };
+
+        // Check if user is logged in
+        const currentUser = window.InovationApp.current();
+        if(!currentUser || currentUser.role !== 'company') {
+            alert('يجب تسجيل الدخول كشركة');
+            window.location.href = 'login.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUserInfo();
+            setupEventListeners();
+        });
+
+        function updateUserInfo() {
+            const userAvatar = document.querySelector('.user-avatar');
+            const userName = document.querySelector('.user-details h3');
+            
+            if(currentUser) {
+                userAvatar.textContent = currentUser.name.charAt(0);
+                userName.textContent = currentUser.name;
+            }
+        }
+
+        function setupEventListeners() {
+            const newOrderBtn = document.getElementById('newOrderBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            // New Order Button
+            newOrderBtn.addEventListener('click', function() {
+                window.location.href = 'company-dashboard.html';
+            });
+
+            // Logout button
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+                    window.InovationApp.logout();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

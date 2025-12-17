@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعدادات الحساب - INOVATION GROUP</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">أ</div>
+                    <div class="user-details">
+                        <h3 id="userName">أحمد محمد</h3>
+                        <span id="userRole">عميل</span>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li><a href="customer-dashboard.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li><a href="#" class="active"><i class="fas fa-user-cog"></i> إعدادات الحساب</a></li>
+                <li><a href="#" id="changePasswordLink"><i class="fas fa-key"></i> تغيير كلمة المرور</a></li>
+                <li><a href="customer-dashboard.html"><i class="fas fa-arrow-right"></i> العودة للوحة التحكم</a></li>
+                <li><a href="index.html" onclick="window.InovationApp.logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="dash-header">
+                <h1>إعدادات الحساب</h1>
+                <div class="user-actions">
+                    <span class="demo-badge" id="demoBadge" style="display: none;">
+                        <i class="fas fa-info-circle"></i> حساب تجريبي
+                    </span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>المعلومات الشخصية</h2>
+                </div>
+                <div class="card-body">
+                    <form id="profileForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profileName">الاسم الكامل</label>
+                                <input type="text" id="profileName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="profilePhone">رقم الهاتف</label>
+                                <input type="tel" id="profilePhone" class="form-control" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profileNationality">الجنسية</label>
+                                <input type="text" id="profileNationality" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="profileGender">النوع</label>
+                                <select id="profileGender" class="form-control" required>
+                                    <option value="male">ذكر</option>
+                                    <option value="female">أنثى</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="driverProfileFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="profileVehicleType">نوع المركبة</label>
+                                <input type="text" id="profileVehicleType" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                حفظ التغييرات
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card" id="passwordCard" style="display: none;">
+                <div class="card-header">
+                    <h2>تغيير كلمة المرور</h2>
+                </div>
+                <div class="card-body">
+                    <form id="passwordForm">
+                        <div class="form-group">
+                            <label for="currentPassword">كلمة المرور الحالية</label>
+                            <input type="password" id="currentPassword" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newPassword">كلمة المرور الجديدة</label>
+                            <input type="password" id="newPassword" class="form-control" required>
+                            <div id="newPasswordStrength" style="font-size: 0.8rem; margin-top: 0.5rem;"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword">تأكيد كلمة المرور الجديدة</label>
+                            <input type="password" id="confirmPassword" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-key"></i>
+                                تغيير كلمة المرور
+                            </button>
+                            <button type="button" class="btn btn-outline" onclick="hidePasswordForm()">
+                                إلغاء
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>معلومات الحساب</h2>
+                </div>
+                <div class="card-body">
+                    <div class="account-info-grid">
+                        <div class="account-info-item">
+                            <h4>تاريخ الإنشاء</h4>
+                            <p id="createdAt">-</p>
+                        </div>
+                        <div class="account-info-item">
+                            <h4>آخر تسجيل دخول</h4>
+                            <p id="lastLogin">-</p>
+                        </div>
+                        <div class="account-info-item">
+                            <h4>عدد الطلبات</h4>
+                            <p id="ordersCount">-</p>
+                        </div>
+                        <div class="account-info-item">
+                            <h4>حالة الحساب</h4>
+                            <p id="accountStatus">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+    <script>
+        // Check if user is logged in
+        const currentUser = window.InovationApp.current();
+        if(!currentUser) {
+            alert('يجب تسجيل الدخول أولاً');
+            window.location.href = 'login.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserProfile();
+            setupEventListeners();
+        });
+
+        function loadUserProfile() {
+            // Update user info in sidebar
+            document.getElementById('userAvatar').textContent = currentUser.name.charAt(0);
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userRole').textContent = getRoleText(currentUser.role);
+
+            // Fill form fields
+            document.getElementById('profileName').value = currentUser.name;
+            document.getElementById('profilePhone').value = currentUser.phone;
+            document.getElementById('profileNationality').value = currentUser.nationality || '';
+            document.getElementById('profileGender').value = currentUser.gender || 'male';
+
+            // Show driver fields if applicable
+            if(currentUser.role === 'driver') {
+                document.getElementById('driverProfileFields').style.display = 'block';
+                document.getElementById('profileVehicleType').value = currentUser.vehicleType || '';
+            }
+
+            // Show demo account badge
+            if(window.InovationApp.isDemoAccount(currentUser)) {
+                document.getElementById('demoBadge').style.display = 'inline-block';
+            }
+
+            // Load account info
+            document.getElementById('createdAt').textContent = window.InovationApp.formatDate(currentUser.createdAt);
+            document.getElementById('lastLogin').textContent = currentUser.lastLogin ? 
+                window.InovationApp.formatDate(currentUser.lastLogin) : 'لم يسجل دخول بعد';
+            document.getElementById('accountStatus').textContent = currentUser.isActive ? 'نشط' : 'غير نشط';
+
+            // Load orders count
+            const orders = window.InovationApp.getOrdersByCustomer(currentUser.id);
+            document.getElementById('ordersCount').textContent = orders.length;
+        }
+
+        function setupEventListeners() {
+            // Profile form
+            document.getElementById('profileForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                updateProfile();
+            });
+
+            // Password form
+            document.getElementById('passwordForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                changePassword();
+            });
+
+            // Change password link
+            document.getElementById('changePasswordLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                showPasswordForm();
+            });
+
+            // New password strength indicator
+            document.getElementById('newPassword').addEventListener('input', function() {
+                const password = this.value;
+                const indicator = document.getElementById('newPasswordStrength');
+                
+                let strength = 'ضعيفة';
+                let color = '#b91c1c';
+                
+                if(password.length >= 8) {
+                    strength = 'جيدة';
+                    color = '#f59e0b';
+                }
+                if(password.length >= 10 && /[0-9]/.test(password) && /[A-Za-z]/.test(password)) {
+                    strength = 'قوية';
+                    color = '#10b981';
+                }
+                
+                indicator.textContent = `قوة كلمة المرور: ${strength}`;
+                indicator.style.color = color;
+            });
+        }
+
+        function getRoleText(role) {
+            const roles = {
+                'customer': 'عميل',
+                'driver': 'مندوب',
+                'company': 'شركة'
+            };
+            return roles[role] || role;
+        }
+
+        function updateProfile() {
+            const name = document.getElementById('profileName').value.trim();
+            const nationality = document.getElementById('profileNationality').value.trim();
+            const gender = document.getElementById('profileGender').value;
+            
+            let updates = { name, nationality, gender };
+            
+            if(currentUser.role === 'driver') {
+                updates.vehicleType = document.getElementById('profileVehicleType').value.trim();
+            }
+
+            const submitBtn = document.querySelector('#profileForm button');
+            const originalText = UIHelper.showLoading(submitBtn);
+
+            setTimeout(() => {
+                const result = window.InovationApp.updateProfile(currentUser.id, updates);
+                
+                if(result.success) {
+                    UIHelper.showMessage('تم تحديث الملف الشخصي بنجاح!', 'success');
+                    // Reload page to reflect changes
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    UIHelper.showMessage(result.message);
+                    UIHelper.hideLoading(submitBtn, originalText);
+                }
+            }, 1000);
+        }
+
+        function showPasswordForm() {
+            document.getElementById('passwordCard').style.display = 'block';
+        }
+
+        function hidePasswordForm() {
+            document.getElementById('passwordCard').style.display = 'none';
+            document.getElementById('passwordForm').reset();
+        }
+
+        function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if(newPassword !== confirmPassword) {
+                UIHelper.showMessage('كلمات المرور غير متطابقة');
+                return;
+            }
+
+            const submitBtn = document.querySelector('#passwordForm button');
+            const originalText = UIHelper.showLoading(submitBtn);
+
+            setTimeout(() => {
+                const result = window.InovationApp.changePassword(currentUser.id, currentPassword, newPassword);
+                
+                if(result.success) {
+                    UIHelper.showMessage('تم تغيير كلمة المرور بنجاح!', 'success');
+                    hidePasswordForm();
+                } else {
+                    UIHelper.showMessage(result.message);
+                }
+                
+                UIHelper.hideLoading(submitBtn, originalText);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

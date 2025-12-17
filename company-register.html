@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل شركة - INOVATION GROUP</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container" style="max-width: 600px;">
+        <div class="auth-header">
+            <i class="fas fa-building"></i>
+            <h1>تسجيل شركة جديدة</h1>
+            <p>انضم إلى منصتنا كشركة واستفد من خدماتنا المتكاملة</p>
+        </div>
+
+        <div class="auth-body">
+            <form id="companyRegisterForm">
+                <h3 style="margin-bottom: 1rem; color: var(--primary);">بيانات الشركة</h3>
+                
+                <div class="form-group">
+                    <label for="companyName">اسم الشركة</label>
+                    <input type="text" id="companyName" class="form-control" placeholder="اسم الشركة الرسمي" required
+                           oninput="this.value = this.value.replace(/[0-9]/g, '')">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="commercialId">رقم السجل التجاري</label>
+                        <input type="text" id="commercialId" class="form-control" placeholder="رقم السجل التجاري" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="taxId">الرقم الضريبي</label>
+                        <input type="text" id="taxId" class="form-control" placeholder="الرقم الضريبي">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="activityType">نوع النشاط</label>
+                    <input type="text" id="activityType" class="form-control" placeholder="نوع النشاط التجاري" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="countryCode">الدولة</label>
+                        <select id="countryCode" class="form-control" required>
+                            <option value="+20">🇪🇬 مصر (+20)</option>
+                            <option value="+966">🇸🇦 السعودية (+966)</option>
+                            <option value="+971">🇦🇪 الإمارات (+971)</option>
+                            <option value="+965">🇰🇼 الكويت (+965)</option>
+                            <option value="+974">🇶🇦 قطر (+974)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="companyPhone">هاتف الشركة</label>
+                        <input type="tel" id="companyPhone" class="form-control" placeholder="1000000001" required
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="companyAddress">عنوان الشركة</label>
+                    <input type="text" id="companyAddress" class="form-control" placeholder="عنوان الشركة الرئيسي" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="companyEmail">البريد الإلكتروني الرسمي</label>
+                    <input type="email" id="companyEmail" class="form-control" placeholder="email@company.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" class="form-control" placeholder="كلمة مرور قوية" required>
+                </div>
+
+                <h3 style="margin: 2rem 0 1rem; color: var(--primary);">بيانات المسؤول</h3>
+
+                <div class="form-group">
+                    <label for="managerName">اسم المسؤول</label>
+                    <input type="text" id="managerName" class="form-control" placeholder="اسم المسؤول الكامل" required
+                           oninput="this.value = this.value.replace(/[0-9]/g, '')">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="managerPhone">رقم هاتف المسؤول</label>
+                        <input type="tel" id="managerPhone" class="form-control" placeholder="1000000001" required
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                    <div class="form-group">
+                        <label for="managerJob">الوظيفة</label>
+                        <input type="text" id="managerJob" class="form-control" placeholder="المسمى الوظيفي" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="managerEmail">البريد الإلكتروني للمسؤول</label>
+                    <input type="email" id="managerEmail" class="form-control" placeholder="email@company.com" required>
+                </div>
+
+                <h3 style="margin: 2rem 0 1rem; color: var(--primary);">مستندات الشركة (اختياري)</h3>
+
+                <div class="form-group">
+                    <label for="docTrade">السجل التجاري</label>
+                    <input type="file" id="docTrade" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="docTax">الرقم الضريبي أو البطاقة الضريبية</label>
+                    <input type="file" id="docTax" class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-building"></i>
+                    تسجيل الشركة
+                </button>
+            </form>
+
+            <div class="auth-links">
+                <a href="login.html">هل لديك حساب؟ تسجيل الدخول</a>
+            </div>
+
+            <div class="back-home">
+                <a href="index.html">
+                    <i class="fas fa-arrow-right"></i>
+                    العودة إلى الرئيسية
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/app.js"></script>
+    <script>
+        // Phone number formatting
+        document.getElementById('companyPhone').addEventListener('input', function() {
+            UIHelper.formatPhoneInput(this);
+        });
+
+        document.getElementById('managerPhone').addEventListener('input', function() {
+            UIHelper.formatPhoneInput(this);
+        });
+
+        // Password strength validation
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthIndicator = document.getElementById('passwordStrength');
+            
+            if(!strengthIndicator) {
+                const indicator = document.createElement('div');
+                indicator.id = 'passwordStrength';
+                indicator.style.fontSize = '0.8rem';
+                indicator.style.marginTop = '0.5rem';
+                this.parentNode.appendChild(indicator);
+            }
+            
+            let strength = 'ضعيفة';
+            let color = '#b91c1c';
+            
+            if(password.length >= 8) {
+                strength = 'جيدة';
+                color = '#f59e0b';
+            }
+            if(password.length >= 10 && /[0-9]/.test(password) && /[A-Za-z]/.test(password)) {
+                strength = 'قوية';
+                color = '#10b981';
+            }
+            
+            strengthIndicator.textContent = `قوة كلمة المرور: ${strength}`;
+            strengthIndicator.style.color = color;
+        });
+
+        // Form Submission
+        document.getElementById('companyRegisterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const companyName = document.getElementById('companyName').value.trim();
+            const commercialId = document.getElementById('commercialId').value.trim();
+            const taxId = document.getElementById('taxId').value.trim();
+            const activityType = document.getElementById('activityType').value.trim();
+            const country = document.getElementById('countryCode').value;
+            const companyPhone = document.getElementById('companyPhone').value.trim();
+            const companyAddress = document.getElementById('companyAddress').value.trim();
+            const companyEmail = document.getElementById('companyEmail').value.trim();
+            const password = document.getElementById('password').value;
+
+            const managerName = document.getElementById('managerName').value.trim();
+            const managerPhone = document.getElementById('managerPhone').value.trim();
+            const managerJob = document.getElementById('managerJob').value.trim();
+            const managerEmail = document.getElementById('managerEmail').value.trim();
+
+            // Validate phone format
+            if(!window.InovationApp.validatePhone(companyPhone)) {
+                UIHelper.showMessage('رقم هاتف الشركة غير صحيح. يجب أن يبدأ بـ + ويتبعه 10-15 رقم');
+                return;
+            }
+
+            // Validate email format
+            if(!window.InovationApp.validateEmail(companyEmail)) {
+                UIHelper.showMessage('البريد الإلكتروني للشركة غير صحيح');
+                return;
+            }
+
+            if(!window.InovationApp.validateEmail(managerEmail)) {
+                UIHelper.showMessage('البريد الإلكتروني للمسؤول غير صحيح');
+                return;
+            }
+
+            // Validate password strength
+            if(password.length < 6) {
+                UIHelper.showMessage('كلمة المرور يجب أن تكون 6 أحرف على الأقل');
+                return;
+            }
+
+            const registerBtn = this.querySelector('button');
+            const originalText = UIHelper.showLoading(registerBtn);
+
+            const companyData = {
+                companyName,
+                commercialId,
+                taxId,
+                activityType,
+                companyPhone,
+                companyAddress,
+                companyEmail,
+                password,
+                managerName,
+                managerPhone,
+                managerJob,
+                managerEmail
+            };
+
+            // Simulate API call
+            setTimeout(() => {
+                const result = window.InovationApp.registerCompany(companyData);
+                
+                if(result.success) {
+                    UIHelper.showMessage('تم تسجيل الشركة بنجاح! يتم توجيهك إلى صفحة تسجيل الدخول...', 'success');
+                    UIHelper.redirect('login.html', 2000);
+                } else {
+                    UIHelper.showMessage(result.message);
+                    UIHelper.hideLoading(registerBtn, originalText);
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

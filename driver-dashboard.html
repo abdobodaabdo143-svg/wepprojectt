@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة المندوب - INOVATION GROUP</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <div class="user-avatar">م</div>
+                    <div class="user-details">
+                        <h3>محمود علي</h3>
+                        <span>مندوب</span>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li><a href="#" class="active"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li><a href="#"><i class="fas fa-tasks"></i> الطلبات المخصصة</a></li>
+                <li><a href="#"><i class="fas fa-list"></i> الطلبات المتاحة</a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> الإحصائيات</a></li>
+                <li><a href="profile-settings.html"><i class="fas fa-user-cog"></i> إعدادات الحساب</a></li>
+                <li><a href="index.html" onclick="window.InovationApp.logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="dash-header">
+                <h1>لوحة تحكم المندوب</h1>
+                <div class="user-actions">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-bell"></i>
+                        الإشعارات
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-truck"></i>
+                    <h3>8</h3>
+                    <p>طلبات نشطة</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>127</h3>
+                    <p>طلبات منفذة</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <h3>4.9</h3>
+                    <p>تقييم العملاء</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h3>5,240</h3>
+                    <p>إجمالي الأرباح</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>الطلبات المخصصة لي</h2>
+                </div>
+                <div class="card-body">
+                    <div class="orders-list" id="assignedOrders">
+                        <!-- Assigned orders will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>الطلبات المتاحة (قابلة للأخذ)</h2>
+                </div>
+                <div class="card-body">
+                    <div class="orders-list" id="availableOrders">
+                        <!-- Available orders will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="chatBox" class="chat-box">
+                <div class="card-header">
+                    <h3>المحادثة مع العميل</h3>
+                    <button class="btn btn-outline" onclick="closeChat()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Chat messages will be loaded here -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" class="form-control" placeholder="اكتب رسالتك...">
+                    <button class="btn btn-primary" id="sendMsg">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+    <script>
+        // Check if user is logged in
+        const currentUser = window.InovationApp.current();
+        if(!currentUser || currentUser.role !== 'driver') {
+            alert('يجب تسجيل الدخول كمندوب');
+            window.location.href = 'login.html';
+        }
+
+        let activeOrder = null;
+
+        // Load orders on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAssignedOrders();
+            loadAvailableOrders();
+            updateUserInfo();
+        });
+
+        function updateUserInfo() {
+            const userAvatar = document.querySelector('.user-avatar');
+            const userName = document.querySelector('.user-details h3');
+            
+            if(currentUser) {
+                userAvatar.textContent = currentUser.name.charAt(0);
+                userName.textContent = currentUser.name;
+            }
+        }
+
+        function loadAssignedOrders() {
+            const orders = window.InovationApp.getOrdersByDriver(currentUser.id);
+            const assignedOrders = document.getElementById('assignedOrders');
+            
+            if(orders.length === 0) {
+                assignedOrders.innerHTML = '<p class="muted" style="text-align: center; padding: 2rem;">لا توجد طلبات مخصصة لك حالياً</p>';
+                return;
+            }
+
+            assignedOrders.innerHTML = orders.map(order => `
+                <div class="order-item">
+                    <div class="order-info">
+                        <h4>طلب #${order._id}</h4>
+                        <p>من: ${order.pickup} - إلى: ${order.delivery}</p>
+                        <div class="order-meta">
+                            <span><i class="fas fa-user"></i> ${order.customerName}</span>
+                            <span><i class="fas fa-box"></i> ${order.shipmentType}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="order-status ${window.InovationApp.getStatusColor(order.status)}">
+                            ${window.InovationApp.getStatusText(order.status)}
+                        </span>
+                        <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-direction: column;">
+                            <button class="btn btn-outline" onclick="openChat('${order._id}')">
+                                <i class="fas fa-comment"></i>
+                                تواصل مع العميل
+                            </button>
+                            ${order.status === 'accepted' ? `
+                                <button class="btn btn-secondary" onclick="updateOrderStatus('${order._id}', 'delivered')">
+                                    <i class="fas fa-check"></i>
+                                    تم التسليم
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadAvailableOrders() {
+            const orders = window.InovationApp.getPendingOrders();
+            const availableOrders = document.getElementById('availableOrders');
+            
+            if(orders.length === 0) {
+                availableOrders.innerHTML = '<p class="muted" style="text-align: center; padding: 2rem;">لا توجد طلبات متاحة حالياً</p>';
+                return;
+            }
+
+            availableOrders.innerHTML = orders.map(order => `
+                <div class="order-item">
+                    <div class="order-info">
+                        <h4>طلب #${order._id}</h4>
+                        <p>من: ${order.pickup} - إلى: ${order.delivery}</p>
+                        <div class="order-meta">
+                            <span><i class="fas fa-user"></i> ${order.customerName}</span>
+                            <span><i class="fas fa-box"></i> ${order.shipmentType}</span>
+                            <span><i class="fas fa-clock"></i> ${window.InovationApp.formatDate(order.createdAt)}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" onclick="takeOrder('${order._id}')">
+                            <i class="fas fa-hand-paper"></i>
+                            أخذ الطلب
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function takeOrder(orderId) {
+            if(confirm('هل تريد أخذ هذا الطلب؟')) {
+                const success = window.InovationApp.assignDriver(orderId, currentUser.id);
+                if(success) {
+                    UIHelper.showMessage('تم أخذ الطلب بنجاح!', 'success');
+                    loadAssignedOrders();
+                    loadAvailableOrders();
+                } else {
+                    UIHelper.showMessage('فشل في أخذ الطلب');
+                }
+            }
+        }
+
+        function updateOrderStatus(orderId, status) {
+            const statusText = status === 'delivered' ? 'تم التسليم' : status;
+            if(confirm(`هل تريد تغيير حالة الطلب إلى: ${statusText}؟`)) {
+                const success = window.InovationApp.updateOrderStatus(orderId, status);
+                if(success) {
+                    UIHelper.showMessage('تم تحديث حالة الطلب بنجاح!', 'success');
+                    loadAssignedOrders();
+                } else {
+                    UIHelper.showMessage('فشل في تحديث حالة الطلب');
+                }
+            }
+        }
+
+        // Chat Functions
+        function openChat(orderId) {
+            activeOrder = orderId;
+            document.getElementById('chatBox').style.display = 'block';
+            loadChatMessages();
+        }
+
+        function closeChat() {
+            activeOrder = null;
+            document.getElementById('chatBox').style.display = 'none';
+        }
+
+        function loadChatMessages() {
+            if(!activeOrder) return;
+            
+            const messages = window.InovationApp.getChat(activeOrder);
+            const chatMessages = document.getElementById('chatMessages');
+            
+            if(messages.length === 0) {
+                chatMessages.innerHTML = '<p class="muted" style="text-align: center; padding: 2rem;">لا توجد رسائل بعد</p>';
+                return;
+            }
+
+            chatMessages.innerHTML = messages.map(msg => `
+                <div class="message ${msg.senderId === currentUser.id ? 'sent' : 'received'}">
+                    <strong>${msg.senderId === currentUser.id ? 'أنت' : 'العميل'}:</strong> ${msg.text}
+                    <div style="font-size: 0.8rem; opacity: 0.7; margin-top: 5px;">
+                        ${new Date(msg.timestamp).toLocaleTimeString('ar-EG')}
+                    </div>
+                </div>
+            `).join('');
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        document.getElementById('sendMsg').addEventListener('click', function() {
+            const chatInput = document.getElementById('chatInput');
+            const text = chatInput.value.trim();
+            
+            if(!text || !activeOrder) return;
+            
+            window.InovationApp.addMessage(activeOrder, currentUser.id, text);
+            chatInput.value = '';
+            loadChatMessages();
+        });
+
+        // Auto refresh orders every 30 seconds
+        setInterval(() => {
+            loadAssignedOrders();
+            loadAvailableOrders();
+            if(activeOrder) loadChatMessages();
+        }, 30000);
+    </script>
+</body>
+</html>
